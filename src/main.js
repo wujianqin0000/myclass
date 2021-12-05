@@ -13,7 +13,7 @@ Vue.use(UUID)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.timeout = 30000; // 设置超时时间
-axios.defaults.baseURL = 'http://localhost:8088'
+axios.defaults.baseURL = 'http://http://121.40.99.230:8088'
 // axios请求统一拦截
 // axios统一拦截响应
 //  REQUEST 请求异常拦截
