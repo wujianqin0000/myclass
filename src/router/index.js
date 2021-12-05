@@ -16,9 +16,35 @@ const routes = [
     component: Login
   },
   {
-    path: '/index',
+    path: '/home',
     name: 'index',
-    component: Index
+    component: Index,
+    children: [
+      {
+        path: '/',
+        redirect:'index'
+      },
+      {
+        path: 'index',
+        name: 'homeIndex',
+        component: () => import(/* webpackChunkName: "about" */ '../views/index/HomeIndex.vue')
+      },
+      {
+        path: 'aboutSchool',
+        name: 'aboutSchool',
+        component: () => import(/* webpackChunkName: "about" */ '../views/index/aboutSchool.vue')
+      },
+      {
+        path: 'personPhoto',
+        name: 'personPhoto',
+        component: () => import(/* webpackChunkName: "about" */ '../views/index/personPhoto.vue')
+      },
+      {
+        path: 'classPhoto',
+        name: 'classPhoto',
+        component: () => import(/* webpackChunkName: "about" */ '../views/index/classPhoto.vue')
+      }
+    ]
   }
   // {
   //   path: '/about',
