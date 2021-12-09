@@ -1,25 +1,8 @@
 <template>
-  <el-card class="box-card" :body-style="{padding: 0}">
-    <iframe src="https://class-photo.vercel.app/mobile/index.html" frameborder="0" scrolling="0"></iframe>
-  </el-card>
+  <div class="personPhoto">
+    <router-view></router-view>
+  </div>
 </template>
-<script>
-export default {
-  data () {
-    return {
-    }
-  }, methods: {
-  }, mounted () {
-
-  }
-}
-</script>
-<style  scoped>
-iframe {
-  height: 100vh;
-  width: 100vw;
-}
-.black {
-  position: relative;
-}
+<style lang="less" scoped>
 </style>
+

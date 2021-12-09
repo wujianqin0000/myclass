@@ -1,7 +1,6 @@
 import { postReq, putReq, getReq, deleteReq } from "../api/BaseRequestApi"
+import {HTTPS_LOGIN } from "./AllApiUrl"
 
-export const VERIFY_CODE_URL = 'http://121.40.99.230:8088/captcha.jpg?token='
-export const LoginPost = (data) => { //登入接口
-   const url= "https://httpslogin.wujianqin.xyz"
-return postReq(url,data)
+export const LoginPost = (data) => { //登入接口请求api
+return postReq(HTTPS_LOGIN,data)
  }

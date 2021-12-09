@@ -16,6 +16,20 @@
           v-for="element in menuDatas"
           :index="element.index"
         >{{element.title}}</el-menu-item>
+        <div class="dropdownBox">
+          <el-dropdown @command="dropdownHandleClick">
+            <el-button type="primary">
+              {{userinfo.email? userinfo.email.replace("@qq.com",""):userinfo.email}}
+              <i
+                class="el-icon-arrow-down el-icon--right"
+              ></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+              <el-dropdown-item :disabled="isOther" command="person">个人中心</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </el-menu>
     </div>
     <router-view />
@@ -26,6 +40,9 @@
 export default {
   data () {
     return {
+      isOther: false,
+      // 用户信息
+      userinfo: {},
       // 是否为全屏
       isFull: true,
       // 导航栏数据
@@ -64,6 +81,24 @@ export default {
     };
   },
   methods: {
+    // 下拉按钮处理函数
+    dropdownHandleClick (key) {
+      switch (key) {
+        case "logout":
+          window.sessionStorage.removeItem("JWT")
+          window.sessionStorage.removeItem("userinfo")
+          window.sessionStorage.removeItem("activeIndex")
+          this.$router.push("/login")
+          break;
+        case "person":
+          this.$router.push(`/home/personPhoto/personDetails/` + this.userinfo.username)
+          window.location.reload()
+          break;
+        default:
+          this.$msg("选项不存在！！！")
+          break;
+      }
+    },
     show (is) {
       this.isFull = is
     },
@@ -106,7 +141,8 @@ export default {
       if (key === "/home/aboutSchool") {
         this.fullScreen()
       }
-      console.log(key, keyPath);
+      window.sessionStorage.setItem("activeIndex", key)
+      // console.log(key, keyPath);
     }
 
   }, mounted () {
@@ -122,7 +158,17 @@ export default {
         that.show(false);
       }
     }
-  }
+  }, created () {
+    let activeIndex = window.sessionStorage.getItem("activeIndex")
+    this.activeIndex = activeIndex ? activeIndex : this.activeIndex
+    let userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+    this.userinfo = userinfo
+    // console.log(userinfo, "sssssss");
+    if (userinfo.username.length != 13) {
+      this.isOther = true
+      this.userinfo.email = "管理员"
+    }
+  },
 }
 </script>
 <style>
@@ -142,5 +188,17 @@ html {
   top: 0;
   width: 100%;
   position: fixed;
+}
+.dropdownBox {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+.menuBox {
+  z-index: 99;
 }
 </style>

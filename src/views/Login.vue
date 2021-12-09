@@ -98,7 +98,8 @@
 import $ from 'jquery'
 import canva from '../assets/js/canva_moving_effect'
 import { uuid } from 'vue-uuid' // 导入uuid插件
-import { VERIFY_CODE_URL, LoginPost } from "../api/LoginReq"
+import { LoginPost } from "../api/LoginReq"
+import { VERIFY_CODE_URL } from "../api/AllApiUrl"
 addEventListener('load', function () {
   setTimeout(hideURLbar, 0)
 }, false)
@@ -133,7 +134,8 @@ export default {
         try {
           let res = await LoginPost(this.fromData);
           window.sessionStorage.setItem('JWT', res.headers.authorization)
-          // console.log(res);
+          window.sessionStorage.setItem('userinfo', JSON.stringify(res.data.data))
+          // console.log(userinfo, "userinfo");
           this.$router.push('/home');
         } catch (error) {
 

@@ -9,7 +9,7 @@ import {Message } from "element-ui"
 // 引入vue-UUID组件
 import UUID from 'vue-uuid'
 Vue.use(UUID)
-
+Vue.prototype.$msg = Message
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.timeout = 30000; // 设置超时时间
@@ -44,7 +44,7 @@ axios.interceptors.response.use(res => {
     case 200:
       return res;
     case 500:
-      // router.push('/errorpage')
+      router.push('/errorpage')
       Message.error({
         message: '服务器异常'
       })
@@ -55,13 +55,13 @@ axios.interceptors.response.use(res => {
       })
       break
     case 2:
-      // router.push('/notfound')
+      router.push('/notfound')
       Message.error({
         message: '授权失败'
       })
       break
     case 6:
-      // router.push('/notfound')
+      router.push('/notfound')
       Message.error({
         message: '风险操作'
       })
@@ -90,25 +90,25 @@ axios.interceptors.response.use(res => {
    // =======请求超时或服务器无响应异常处理=======
    const {code, message } = err
    if (code === 'ECONNABORTED' || message === 'Network Error') { // 请求超时或服务器无响应
-    //  router.push('/errorpage') // 跳转至错误界面500  
-     Message.error({
-      message: '/errorpage'
-    })
+     router.push('/errorpage') // 跳转至错误界面500  
+    //  Message.error({
+    //   message: '/errorpage'
+    // })
      return Promise.resolve(err)
    }
   //= =============  错误处理  ====================
   function toError (code) {
     err.message = ''
-    // router.push(code === 404 ? '/notfound' : '/errorpage') // 跳转至错误界面
-    Message.error({
-      message: `/code === ${code}`
-    })
+    router.push(code === 404 ? '/notfound' : '/errorpage') // 跳转至错误界面
+    // Message.error({
+    //   message: `/code === ${code}`
+    // })
   }
   if (err && err.response) {
     switch (err.response.status) {
       case 400:
-        err.message = '请求错误(400)'
-        toError (404) // 跳转至错误界面404
+        err.message =  err.response.data.msg
+        // toError (404) // 跳转至错误界面404
         break
       case 401:
         err.message = '未授权，请重新登录(401)'
@@ -165,6 +165,20 @@ axios.interceptors.response.use(res => {
   }
   return Promise.resolve(err)
 })
+
+// 挂载路由守卫
+// to 访问的路由地址 from从那个地址跳转而来 next 放行函数
+router.beforeEach((to, from, next) => {
+  if (to.path === '/' || to.path === '/login' || to.path === '/notfound' || to.path === '/errorpage') return next()
+  const JWT = window.sessionStorage.getItem('JWT')
+  if (!JWT) {
+    Message.error('请先登录!!!')
+    return next('/login')
+  }
+  next()
+})
+
+
 new Vue({
   router,
   store,
