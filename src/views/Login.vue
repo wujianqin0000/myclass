@@ -167,4 +167,16 @@ export default {
     margin-left: 10px;
   }
 }
+.footer {
+  margin: 1.5vw 0.3vw 2vw;
+}
+@media screen and (max-width: 1675px) {
+  .sub-main-w3 {
+    height: 62vh;
+    transform: scale(0.8, 0.8);
+  }
+  .footer {
+    margin: 4vw 0.3vw 2vw;
+  }
+}
 </style>
