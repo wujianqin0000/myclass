@@ -91,8 +91,8 @@ export default {
           this.$router.push("/login")
           break;
         case "person":
-          this.$router.push(`/home/personPhoto/personDetails/` + this.userinfo.username)
-          window.location.reload()
+          this.$router.push(`/home/personPhoto/Personal/` + this.userinfo.username)
+          // this.$forceUpdate()
           break;
         default:
           this.$msg("选项不存在！！！")

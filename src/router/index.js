@@ -58,7 +58,12 @@ const routes = [
             path: 'personPhotoList',
             name: 'personPhotoList',
             component: () => import(/* webpackChunkName: "AboutProject" */ '../views/index/personphoto/PersonPhotoList.vue')
-          }
+          },
+          {
+            path: 'Personal/:id',
+            name: 'Personal',
+            component: () => import(/* webpackChunkName: "AboutProject" */ '../views/index/personphoto/Personal.vue')
+          },
         ]
       },
       {
