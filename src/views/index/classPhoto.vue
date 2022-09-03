@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card" :body-style="{padding: 0}">
-    <iframe src="https://class-photo.vercel.app/mobile/index.html" frameborder="0" scrolling="0"></iframe>
+    <iframe src="https://wu-jian-qin.gitee.io/class-photo/mobile/" frameborder="0" scrolling="0"></iframe>
   </el-card>
 </template>
 <script>
